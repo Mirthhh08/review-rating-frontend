@@ -7,7 +7,7 @@ import { addReview, getCompanyReviews } from "../store/Slices/reviewSlice";
 import { IoMdClose } from "react-icons/io";
 import { FaStar } from "react-icons/fa6";
 
-const AddReview = ({ handleChange }) => {
+const AddReview = ({ handleChange, refreshCompanyDetails }) => {
   const companyId = useParams();
   const {
     formState: { errors },
@@ -69,8 +69,12 @@ const AddReview = ({ handleChange }) => {
 
     try {
       const response = await dispatch(addReview(data));
-      await dispatch(getCompanyReviews(companyId));
-      handleChange();
+      
+      if (response) {
+        await dispatch(getCompanyReviews(companyId));
+        refreshCompanyDetails();
+        handleChange();
+      }
     } catch (error) {
       console.error("Error adding company:", error);
     }
@@ -101,7 +105,7 @@ const AddReview = ({ handleChange }) => {
     if (rating === 1 || rating === 2) return "Not Satisfied";
     if (rating === 3 || rating === 4) return "Satisfied";
     if (rating === 5) return "Excellent";
-    return ""; 
+    return "";
   };
 
   return (

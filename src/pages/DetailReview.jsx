@@ -28,6 +28,10 @@ const DetailReview = () => {
   const handleChange = () => {
     setIsActive((prev) => !prev);
   };
+
+  const refreshCompanyDetails = () => {
+    dispatch(getCompanyById({ companyId }));
+  };
   return (
     <>
       <Navbar />
@@ -67,7 +71,10 @@ const DetailReview = () => {
 
       {isActive && (
         <div className="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 w-[400px]">
-          <AddReview handleChange={handleChange} />
+          <AddReview
+            handleChange={handleChange}
+            refreshCompanyDetails={refreshCompanyDetails}
+          />
         </div>
       )}
     </>
